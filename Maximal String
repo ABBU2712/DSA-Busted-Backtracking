@@ -1,0 +1,29 @@
+#Given a string A and integer B, what is maximal lexicographical stringthat can be made from A if you do atmost B swaps.
+
+class Solution:
+    # @param A : string
+    # @param B : integer
+    # @return a strings
+    def solve(self, A, B):
+        if len(A) == 1:
+            return A
+            
+        ans = self.recurse(0, list(A), B)
+        return str(ans)
+        
+    def recurse(self,idx, A, B):
+        n = len(A)
+    # base case
+        if idx == n-1 or B == 0 :
+            a = A.copy()
+            return ''.join(a)
+
+    # recursive case
+        ans = -float('inf')
+        for i in range(idx, n): 
+            A[i], A[idx] = A[idx], A[i]
+            if i != idx:
+                B -= 1
+            ans = max(int(self.recurse(idx+1, A, B)), ans)
+            A[i], A[idx] = A[idx], A[i]
+        return ans
